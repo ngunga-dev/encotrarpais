@@ -7,32 +7,34 @@ function App() {
   const [countryInformation,setCountryInformation]=useState()
   const [detalhe,setDetalhe]=useState(null)
   
-  let fronteiras=[]
+  const fronteiras=[]
   
   async function searchCountry(){
         const urlCountry=await (`https://restcountries.com/v3.1/name/${city}?fullText=true`);
         const foundCountry=await fetch(urlCountry)
         const data= await foundCountry.json()
-        data.map(country=>{
+        data.map(async(country)=>{
           console.log(country)
-          const detalheis={
+          const detalheis= await{
             name:country.name.common,
             capital:country.capital[0],
             region:country.region,
             population:country.population,
             area:country.area,
-            //paisedeFronteira:country.borders.forEach(codigo=>codigo[0]),
             mapa:country.maps.googleMaps,
           }
-         data.forEach(country=>{
+         data.forEach((country)=>{
             country.borders.forEach(async(codigo)=>{
 
               const newUrl= await (`https://restcountries.com/v3.1/alpha/${codigo}`);
               const response= await fetch(newUrl)
               const newData= await response.json()
-              const countryBorders=newData.map(country=>country.name.common)
-              const newCountryBorders=countryBorders.join(', ')
+
+              const countryBorders=newData.map(async(country)=>await country.name.common)
+              const newCountryBorders=await countryBorders
+
               fronteiras.push(newCountryBorders)
+              // CONTINUA
               detalheis.paisdeFronteira=fronteiras
               
             })
@@ -83,7 +85,16 @@ function App() {
             <p className="lead">Digite o nome da sua cidade e em seguida clica em pesquisar</p>
 
             <div className="row mb-4">
+              <div>
+                <h2>ES</h2>
+              <select>
+                    <option value="">Escolha a sua cidade</option>
+                  </select>
+              </div>
                 <div className="col-md-6">
+
+                
+
                   <input
                     className="form-control"
                     onChange={hendleChange}
@@ -106,7 +117,9 @@ function App() {
                   <p> País: {detalhe.name}</p>
                   <p> Capital: {detalhe.capital}</p>
                   <p> População: {detalhe.population}</p>
-                  <p> País: {detalhe.name}</p>
+                  <p> Fronteira: {detalhe.paisdeFronteira}</p>
+                  <p> Continenti: {detalhe.region}</p>
+                  <p> Área: {detalhe.area}</p>
                 </div>):null
               }
             </div>
