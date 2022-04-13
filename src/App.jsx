@@ -10,12 +10,12 @@ function App() {
   const fronteiras=[]
   
   async function searchCountry(){
-        const urlCountry=await (`https://restcountries.com/v3.1/name/${city}?fullText=true`);
+        const urlCountry=(`https://restcountries.com/v3.1/name/${city}?fullText=true`);
         const foundCountry=await fetch(urlCountry)
         const data= await foundCountry.json()
         data.map(async(country)=>{
           console.log(country)
-          const detalheis= await{
+          const detalheis={
             name:country.name.common,
             capital:country.capital[0],
             region:country.region,
@@ -30,12 +30,15 @@ function App() {
               const response= await fetch(newUrl)
               const newData= await response.json()
 
-              const countryBorders=newData.map(async(country)=>await country.name.common)
-              const newCountryBorders=await countryBorders
-
-              fronteiras.push(newCountryBorders)
+              
+              newData.map(async(country)=>{
+                    const newCountryBords=country.name.common
+                  fronteiras.push(newCountryBords)  
+                  console.log(fronteiras)           
+              })
+              // fronteiras.push()
               // CONTINUA
-              detalheis.paisdeFronteira=fronteiras
+              // detalheis.paisdeFronteira=fronteiras
               
             })
           })
@@ -74,23 +77,23 @@ function App() {
     <div>
       <nav className="navbar navbar-expand-md navbar-dark bg-dark mb-5 ">
       <a className="navbar-brand text-white text-sm-start" href='#stop'>
-        Previsão do Tempo
+        Agora Sei
       </a>
 
       </nav>
 
       <main className="container">
         <div className="jumbotrom">
-            <h1>Verifica agora a previsão do tempo da sua cidade</h1>
-            <p className="lead">Digite o nome da sua cidade e em seguida clica em pesquisar</p>
+            <h1>Conhece mais sobre o  pais que gostes</h1>
+            <p className="lead">Digite o nome do país</p>
 
             <div className="row mb-4">
-              <div>
+              {/* <div>
                 <h2>ES</h2>
               <select>
                     <option value="">Escolha a sua cidade</option>
                   </select>
-              </div>
+              </div> */}
                 <div className="col-md-6">
 
                 
@@ -99,6 +102,7 @@ function App() {
                     className="form-control"
                     onChange={hendleChange}
                     value={city}
+                    placeholder="Digite o nome do país"
                     
                   />
                 </div>
@@ -120,6 +124,10 @@ function App() {
                   <p> Fronteira: {detalhe.paisdeFronteira}</p>
                   <p> Continenti: {detalhe.region}</p>
                   <p> Área: {detalhe.area}</p>
+                  <p>Independecia</p>
+                  <p>Lado do Motorista </p>
+                  <p>Moeda do Pais</p>
+                  <p>Moeda Internacional</p>
                 </div>):null
               }
             </div>
