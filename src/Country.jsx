@@ -9,25 +9,25 @@ import { useState } from 'react'
 // }
 
 const Country=(props)=>{
-    const [countryInformation,setCountryInformation]=useState()
-    const [detalhe,setDetalhe]=useState()
-    const city=props.city
-    async function searchCountry(){
-        const urlCountry=await (`https://restcountries.com/v3.1/name/${city}?fullText=true`);
-        const foundCountry=await fetch(urlCountry)
-        const data= await foundCountry.json()
-        const newData=data.map(country=>{
+    // const [countryInformation,setCountryInformation]=useState()
+    // const [detalhe,setDetalhe]=useState()
+    // const city=props.city
+    // async function searchCountry(){
+    //     const urlCountry=await (`https://restcountries.com/v3.1/name/${city}?fullText=true`);
+    //     const foundCountry=await fetch(urlCountry)
+    //     const data= await foundCountry.json()
+    //     const newData=data.map(country=>{
 
-            const detalheis={
-                name:country.name.common,
-            }
+    //         const detalheis={
+    //             name:country.name.common,
+    //         }
 
-            console.log(country)
+    //         console.log(country)
 
-            setDetalhe(setDetalhe(detalheis))
-        })
+    //         setDetalhe(setDetalhe(detalheis))
+    //     })
 
-    }
+    // }
 /*
 const listaDePias={
             name: pais.name.common,
@@ -51,12 +51,13 @@ const listaDePias={
 */
     
     return(
-        <div>
-            <h2>Informações sobre os país</h2>
-            <div className='lead'>
-                <p>Pais {detalhe}</p>
-            </div>
-        </div>
+       <>
+       <div className="form-group mx-sm-3 mb-2">
+    <label for="inputPassword2" className="sr-only">Senha</label>
+    <input type="password" className="form-control" id="inputPassword2" placeholder="Senha"/>
+  </div>
+  <button type="submit" className="btn btn-primary mb-2">Confirmar identidade</button>
+       </>
     )
 }
 
