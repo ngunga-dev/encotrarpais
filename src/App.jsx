@@ -12,6 +12,12 @@ function App() {
 
   const fronteiras = [];
 
+  async function CountryBordrs(){
+       return await(
+         <li>{fronteiras.map(pais=>console.log(pais))}</li>
+      )
+  }
+
   async function searchCountry() {
     const urlCountry = `https://restcountries.com/v3.1/name/${city}?fullText=true`;
     const foundCountry = await fetch(urlCountry);
@@ -73,9 +79,8 @@ function App() {
     <div>
       <nav className="navbar navbar-expand-md navbar-primary bg-primary mb-5 ">
         <div className="d-flex justify-content-between textAlign: center">
-          <h3 className="col-md-6 text-center text-white"> AAAA</h3>
+          <h3 className="col-md-6 text-center text-white"></h3>
         </div>
-          
       </nav>
 
       <main className="container">
@@ -100,20 +105,22 @@ function App() {
                 value={city}
                 placeholder="Digite o nome do país"
               />
-            <button
-              className="btn btn-primary btn-lg mb-2"
-              align="center"
-              onClick={executar}
-            >
-              Pesquisar
-            </button>
-           
+              <button
+                className="btn btn-primary btn-lg mb-2"
+                align="center"
+                onClick={executar}
+              >
+                Pesquisar
+              </button>
             </div>
-
-           
           </div>
-       
+
           <div className="container">
+          <div className="col-md-6 offset-md-3 text-center">
+            <h2>Conheça mais sobre os paises!</h2>
+            <p>Sabedoria vem do aprender!</p>
+            {/* <p className="lead">Digite o nome do país</p> */}
+          </div>
             <div className="row">
               <div className="col-6">
                 <div>
@@ -122,9 +129,8 @@ function App() {
                       <p> País: {detalhe.name}</p>
                       <p> Capital: {detalhe.capital}</p>
                       <p> População: {detalhe.population}</p>
-                      <p> Fronteira: {detalhe.paisdeFronteira}</p>
-                      <p> Continenti: {detalhe.region}</p>
-                      <p> Área: {detalhe.area}</p>
+                      <p> Continente: {detalhe.region}</p>
+                      <p> Extensão Territorial : {detalhe.area} km²</p>
                       <p>Independecia</p>
                       <p>Lado do Motorista </p>
                       <p>Moeda do Pais</p>
@@ -150,15 +156,15 @@ function App() {
                         <div className="lead">
                           <p>
                             Temperatura em Celsius:{" "}
-                            {weatherForecast.current.temp_c}
+                            {weatherForecast.current.temp_c} °C
                           </p>
                           <p>
                             Temperatura em Fahrenheit:{" "}
-                            {weatherForecast.current.temp_f}
+                            {weatherForecast.current.temp_f} °F
                           </p>
                           <p>Humidade: {weatherForecast.current.humidity}%</p>
                           <p>Vento : {weatherForecast.current.wind_kph} km/h</p>
-                          <h3>Pais: {weatherForecast.location.country}</h3>
+                          {/* <h3>Pais: {weatherForecast.location.country}</h3> */}
                           <p>Cidade: {weatherForecast.location.name}</p>
                           <p>
                             Horário local:{" "}
@@ -172,17 +178,24 @@ function App() {
                   </div>
                 ) : null}
               </div>
+
+              <div className="col-md-6 offset-md-3 text-center">
+                <h2>Fronteiras terrestres</h2>
+                <ul>
+                  
+                  {/* <li>{detalhe}</li> */}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </main>
-   
-        {/* <footer className="footer bg-primary">
+
+      {/* <footer className="footer bg-primary">
 
 
 <FooterPage></FooterPage>
 </footer> */}
-     
     </div>
   );
 }
