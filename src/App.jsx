@@ -27,6 +27,7 @@ function App() {
       const detalheis = {
         name: country.name.common,
         capital: country.capital[0],
+        bandeira:country.flags.svg,
         region: country.region,
         population: country.population,
         area: country.area,
@@ -116,12 +117,32 @@ function App() {
           </div>
 
           <div className="container">
-          <div className="col-md-6 offset-md-3 text-center">
-            <h2>Conheça mais sobre os paises!</h2>
-            <p>Sabedoria vem do aprender!</p>
-            {/* <p className="lead">Digite o nome do país</p> */}
-          </div>
-            <div className="row">
+
+            <div>
+              
+            {
+              detalhe?(
+                <div className="col-md-6 offset-md-3 text-center">
+                  <br></br>
+                  <br></br>
+              <span
+              style={{
+                fontWeight:"bold",
+                fontSize:"20px"
+              }}
+              >
+              <strong> 
+                Conheça mais sobre  {detalhe.name}
+              </strong> 
+              </span>
+                <span>
+                <img src={detalhe.bandeira} width="60" height="50"/>
+                </span>
+            </div>
+              ):null
+            }
+            </div>
+            <div className="row align-items-center justify-content-center">
               <div className="col-6">
                 <div>
                   {detalhe ? (
@@ -133,7 +154,7 @@ function App() {
                       <p> Extensão Territorial : {detalhe.area} km²</p>
                       <p>Independecia</p>
                       <p>Lado do Motorista </p>
-                      <p>Moeda do Pais</p>
+                      {/* <p>Moeda do Pais :{`${detalhe.currencies.AOA.name}`}</p> */}
                       <p>Moeda Internacional</p>
                     </div>
                   ) : null}
@@ -179,13 +200,23 @@ function App() {
                 ) : null}
               </div>
 
-              <div className="col-md-6 offset-md-3 text-center">
-                <h2>Fronteiras terrestres</h2>
+                  <div>
+                    
+                {
+                  
+                  detalhe?(
+                    <div className="col-md-6 offset-md-3 text-center">
+
+                <h2>Fronteiras terrestes</h2>
+                <h2>{detalhe.name}</h2>
                 <ul>
                   
                   {/* <li>{detalhe}</li> */}
                 </ul>
               </div>
+                  ):null
+                }
+                  </div>
             </div>
           </div>
         </div>
