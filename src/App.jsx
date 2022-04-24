@@ -1,55 +1,77 @@
-import { useState } from "react";
-import axios from "axios";
-import Country from "./Country";
-import Footer from "./Footer";
-import FooterPage from "./Footer";
-
+import { useState, useEffect } from "react";
+// import axios from "axios";
+import "./reset.css";
 function App() {
   const [city, setCity] = useState("");
   const [weatherForecast, setWeatherForecast] = useState(null);
-  const [countryInformation, setCountryInformation] = useState();
+  const [countryInformation, setCountryInformation] = useState("");
+  const [lingua, setLingua] = useState([]);
   const [detalhe, setDetalhe] = useState(null);
+  const [fronteiras, setFronteiras] = useState([]);
 
-  const fronteiras = [];
-
-  async function CountryBordrs(){
-       return await(
-         <li>{fronteiras.map(pais=>console.log(pais))}</li>
-      )
-  }
+  // const CountryBordrs = async ()=>{
+  //   return (
+  //     await fronteiras.map((nome,index)=>(<li key={index}>{nome}</li>))
+  //   )
+  // }
+  useEffect(() => {
+    // searchCountry()
+  });
+  let paisesF = [];
 
   async function searchCountry() {
     const urlCountry = `https://restcountries.com/v3.1/name/${city}?fullText=true`;
     const foundCountry = await fetch(urlCountry);
+    if (foundCountry.status === 404) {
+      setCountryInformation("Pais não encontrado");
+      console.log(countryInformation);
+    }
+
     const data = await foundCountry.json();
-    data.map(async (country) => {
+    await data.map((country) => {
+      // Lista de linguas
+      data.forEach(async (country) => {
+        const linguas = await country.languages;
+        const listLingua = [];
+        for (let lang in linguas) {
+          listLingua.push(linguas[lang]);
+          setLingua(() => listLingua.map((langs) => langs));
+        }
+        console.log(lingua);
+      });
+
       console.log(country);
+
       const detalheis = {
         name: country.name.common,
         capital: country.capital[0],
-        bandeira:country.flags.svg,
+        bandeira: country.flags.svg,
         region: country.region,
+        independencia: country.independent,
         population: country.population,
+        ladoMotorista: country.car.side,
         area: country.area,
         mapa: country.maps.googleMaps,
       };
-      data.forEach((country) => {
-        country.borders.forEach(async (codigo) => {
-          const newUrl = await `https://restcountries.com/v3.1/alpha/${codigo}`;
-          const response = await fetch(newUrl);
-          const newData = await response.json();
 
-          newData.map(async (country) => {
-            const newCountryBords = country.name.common;
-            fronteiras.push(newCountryBords);
-            console.log(fronteiras);
+      // Listar as fronteiras
+
+      country.borders.forEach(async (codigo) => {
+        const newUrl = `https://restcountries.com/v3.1/alpha/${codigo}`;
+        const response = await fetch(newUrl);
+        if (response.status === 200) {
+          const newData = await response.json();
+          newData.forEach(async (country) => {
+            const f = await country.name.common;
+            paisesF.push(f);
           });
-          // fronteiras.push()
-          // CONTINUA
-          // detalheis.paisdeFronteira=fronteiras
-        });
+          setFronteiras(() => paisesF.map((value) => value));
+          console.log(paisesF);
+        }
       });
+
       setDetalhe(detalheis);
+      console.log(detalheis);
     });
   }
 
@@ -72,19 +94,19 @@ function App() {
       const data = await response.json();
       setWeatherForecast(data);
     } else {
-      console.log("erre de ligação");
+      console.log("erro de ligação");
     }
   };
 
   return (
-    <div>
+    <div className="container-fluid">
       <nav className="navbar navbar-expand-md navbar-primary bg-primary mb-5 ">
         <div className="d-flex justify-content-between textAlign: center">
           <h3 className="col-md-6 text-center text-white"></h3>
         </div>
       </nav>
 
-      <main className="container">
+      <main className="container-fluid">
         <div className="jumbotrom">
           <div className="col-md-6 offset-md-3 text-center">
             <h2>Conheça mais sobre os paises!</h2>
@@ -116,44 +138,65 @@ function App() {
             </div>
           </div>
 
-          <div className="container">
-
+          <div className="container-fluid">
             <div>
-              
-            {
-              detalhe?(
+              {detalhe ? (
                 <div className="col-md-6 offset-md-3 text-center">
                   <br></br>
                   <br></br>
-              <span
-              style={{
-                fontWeight:"bold",
-                fontSize:"20px"
-              }}
-              >
-              <strong> 
-                Conheça mais sobre  {detalhe.name}
-              </strong> 
-              </span>
-                <span>
-                <img src={detalhe.bandeira} width="60" height="50"/>
-                </span>
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                    }}
+                  >
+                    <strong>Detalhes sobre {detalhe.name}</strong>
+                    <br></br>
+                  </span>
+                  <span>
+                    <img src={detalhe.bandeira} width="60" height="50" />
+                  </span>
+                </div>
+              ) : null}
             </div>
-              ):null
-            }
-            </div>
-            <div className="row align-items-center justify-content-center">
+            <div className="container-fluid row align-items-center justify-content-center">
               <div className="col-6">
                 <div>
                   {detalhe ? (
-                    <div>
-                      <p> País: {detalhe.name}</p>
-                      <p> Capital: {detalhe.capital}</p>
-                      <p> População: {detalhe.population}</p>
-                      <p> Continente: {detalhe.region}</p>
-                      <p> Extensão Territorial : {detalhe.area} km²</p>
-                      <p>Independecia</p>
-                      <p>Lado do Motorista </p>
+                    <div className="lead">
+                      <p>
+                        {" "}
+                        <strong>País:</strong> {detalhe.name}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong>Capital:</strong> {detalhe.capital}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong>População:</strong> {detalhe.population}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong>Continente:</strong> {detalhe.region}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong></strong> Extensão Territorial : {detalhe.area}{" "}
+                        km²
+                      </p>
+                      <p>
+                        {" "}
+                        <strong></strong> Independecia :
+                        {detalhe.independencia ? "Sim" : "Não"}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong></strong> Lado do Motorista:{" "}
+                        {detalhe.ladoMotorista === "right"
+                          ? "Direito"
+                          : "Esquerdo"}
+                      </p>
                       {/* <p>Moeda do Pais :{`${detalhe.currencies.AOA.name}`}</p> */}
                       <p>Moeda Internacional</p>
                     </div>
@@ -200,33 +243,32 @@ function App() {
                 ) : null}
               </div>
 
-                  <div>
-                    
-                {
-                  
-                  detalhe?(
-                    <div className="col-md-6 offset-md-3 text-center">
-
-                <h2>Fronteiras terrestes</h2>
-                <h2>{detalhe.name}</h2>
-                <ul>
-                  
-                  {/* <li>{detalhe}</li> */}
-                </ul>
-              </div>
-                  ):null
-                }
+              <div>
+                {detalhe ? (
+                  <div className="col-md-6 offset-md-3 text-center">
+                    <h2>Fronteiras terrestes</h2>
+                    <h2>{detalhe.name}</h2>
+                    <ul className="list-group list-group-numbered">
+                      {fronteiras.map((nome, index) => (
+                        <li className="list-group-item" key={index}>
+                          {nome}
+                        </li>
+                      ))}
+                    </ul>
+                    <br></br>
+                    <br></br>
+                    <br></br>
                   </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
       </main>
 
-      {/* <footer className="footer bg-primary">
-
-
-<FooterPage></FooterPage>
-</footer> */}
+      <footer className="navbar footer fixed-bottom footer-primary footer-shadow content container-fluid text-center">
+        <p>Footer Text</p>
+      </footer>
     </div>
   );
 }
