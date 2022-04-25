@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 // import axios from "axios";
 import "./reset.css";
 function App() {
@@ -141,7 +142,7 @@ function App() {
           <div className="container-fluid">
             <div>
               {detalhe ? (
-                <div className="col-md-6 offset-md-3 text-center">
+                <div className="col-md-6 offset-md-3 text-center flex-wrap" display="flex" justifyContent="between">
                   <br></br>
                   <br></br>
                   <span
@@ -150,7 +151,7 @@ function App() {
                       fontSize: "20px",
                     }}
                   >
-                    <strong>Detalhes sobre {detalhe.name}</strong>
+                    <h1>Detalhes sobre {detalhe.name}</h1>
                     <br></br>
                   </span>
                   <span>
@@ -246,9 +247,8 @@ function App() {
               <div>
                 {detalhe ? (
                   <div className="col-md-6 offset-md-3 text-center">
-                    <h2>Fronteiras terrestes</h2>
-                    <h2>{detalhe.name}</h2>
-                    <ul className="list-group list-group-numbered">
+                    <h2>Paises que fazem fronteira com {detalhe.name}</h2>
+                    <ul className="list-group ">
                       {fronteiras.map((nome, index) => (
                         <li className="list-group-item" key={index}>
                           {nome}
@@ -266,9 +266,10 @@ function App() {
         </div>
       </main>
 
-      <footer className="navbar footer fixed-bottom footer-primary footer-shadow content container-fluid text-center">
+      <footer className="navbar footer footer-fixed  navbar-primary bg-primary  content container-fluid">
         <p>Footer Text</p>
       </footer>
+  
     </div>
   );
 }
