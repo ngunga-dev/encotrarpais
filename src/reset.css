@@ -1,14 +1,39 @@
-.navbar {
+/* .navbar {
   margin-bottom: 50px;
   border-radius: 0;
-}
-
+} */
+/* body{
+  background-color: aqua;
+} */
 /* Remove the jumbotron's default bottom margin */ 
  .jumbotron {
   margin-bottom: 0;
 }
 
 /* Add a gray background color and some padding to the footer */
-footer {
+/* footer {
   padding: 25px;
+} */
+
+.col-xs-15 {
+  width: 20%;
+  float: left;
+}
+@media (min-width: 768px) {
+.col-sm-15 {
+      width: 20%;
+      float: left;
+  }
+}
+@media (min-width: 992px) {
+  .col-md-15 {
+      width: 20%;
+      float: left;
+  }
+}
+@media (min-width: 1200px) {
+  .col-lg-15 {
+      width: 20%;
+      float: left;
+  }
 }
