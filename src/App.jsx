@@ -443,12 +443,11 @@ function App() {
   async function searchCountry() {
     const urlCountry = `https://restcountries.com/v3.1/name/${city}?fullText=true`;
     const foundCountry = await fetch(urlCountry);
-    if (foundCountry.status === 404) {
-      return alert(`
+    if (foundCountry.status === 404) return alert(`
       Pais não encontrado.
       Tenta escrever o  país em inglês!!!
       `);
-    }
+    
 
     const data = await foundCountry.json();
     await data.map(async (country) => {
