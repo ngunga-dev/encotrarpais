@@ -444,7 +444,10 @@ function App() {
     const urlCountry = `https://restcountries.com/v3.1/name/${city}?fullText=true`;
     const foundCountry = await fetch(urlCountry);
     if (foundCountry.status === 404) {
-      setCountryInformation("Pais não encontrado");
+      return alert(`
+      Pais não encontrado.
+      Tenta escrever o  país em inglês!!!
+      `);
     }
 
     const data = await foundCountry.json();
