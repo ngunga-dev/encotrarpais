@@ -437,31 +437,17 @@ function App() {
     { code: 'ZW', label: 'Zimbabwe', phone: '263' },
   ];
 
-  // const CountryBordrs = async ()=>{
-  //   return (
-  //     await fronteiras.map((nome,index)=>(<li key={index}>{nome}</li>))
-  //   )
-  // }
-  useEffect(() => {
-    // searchCountry()
-  });
   let paisesF = [];
-
   async function searchCountry() {
     const urlCountry = `https://restcountries.com/v3.1/name/${city}?fullText=true`;
     const foundCountry = await fetch(urlCountry);
     if (foundCountry.status === 404) {
       setCountryInformation("Pais não encontrado");
-      console.log(countryInformation);
     }
 
     const data = await foundCountry.json();
     await data.map(async (country) => {
       // Lista de linguas
-      const moedaDoPais={
-        symbol: await country.currencies[0],
-        nomeMoeda:await country.currencies[0] 
-      };
       data.forEach(async (country) => {
         const linguas = await country.languages;
         const listLingua = [];
@@ -469,10 +455,7 @@ function App() {
           listLingua.push(linguas[lang]);
           setLingua(() => listLingua.map((langs) => langs));
         }
-        console.log(listLingua);
       });
-
-      console.log("moedas: ",moedaDoPais.symbol)
 
       console.log(country);
       const detalheis = {
@@ -500,12 +483,10 @@ function App() {
             paisesF.push(f);
           });
           setFronteiras(() => paisesF.map((value) => value));
-          console.log(paisesF);
         }
       });
 
       setDetalhe(detalheis);
-      console.log(detalheis);
     });
   }
 
@@ -546,8 +527,14 @@ function App() {
       <main className="container">
         <div className="jumbotrom">
           <div className="col-md-6 offset-md-3 text-center">
-            <h2>Conheça mais sobre os paises!</h2>
-            <p>Sabedoria vem do aprender!</p>
+            <br></br>
+            <br></br>
+            <br></br>
+            <h2
+            >Conheça sobre o país!</h2>
+            <br></br>
+            <br></br>
+            
             {/* <p className="lead">Digite o nome do país</p> */}
           </div>
 
@@ -612,15 +599,11 @@ function App() {
                     <div className="lead">
                       <p>
                         {" "}
-                        <strong>País:</strong> {detalhe.name}
-                      </p>
-                      <p>
-                        {" "}
                         <strong>Capital:</strong> {detalhe.capital}
                       </p>
                       <p>
                         {" "}
-                        <strong>População:</strong> {detalhe.population}
+                        <strong>População:</strong> {detalhe.population.toLocaleString()}
                       </p>
                       <p>
                         {" "}
@@ -628,23 +611,23 @@ function App() {
                       </p>
                       <p>
                         {" "}
-                        <strong></strong> Extensão Territorial : {detalhe.area}{" "}
+                        <strong>Extensão Territorial :</strong> {detalhe.area.toLocaleString()}{" "}
                         km²
                       </p>
                       <p>
                         {" "}
-                        <strong></strong> Independência :
+                        <strong>Independência :</strong> 
                         {detalhe.independencia ? "Sim" : "Não"}
                       </p>
                       <p>
                         {" "}
-                        <strong></strong> Lado do Motorista:{" "}
+                        <strong>Lado do Motorista:</strong> {" "}
                         {detalhe.ladoMotorista === "right"
                           ? "Direito"
                           : "Esquerdo"}
                       </p>
                       {/* <p>Moeda do Pais :{`${detalhe.currencies.AOA.name}`}</p> */}
-                      <p>Moeda Internacional</p>
+                      <p> <strong>Moeda :</strong> </p>
                     </div>
                   ) : null}
                 </div>
@@ -659,10 +642,12 @@ function App() {
                       </div>
 
                       <div>
-                        <h3>
+                        <p>
+                          <strong>
                           Hoje o dia está:{" "}
                           {weatherForecast.current.condition.text}
-                        </h3>
+                          </strong>
+                        </p>
                         <div className="lead">
                           <p>
                             Temperatura em Celsius:{" "}
@@ -675,7 +660,7 @@ function App() {
                           <p>Humidade: {weatherForecast.current.humidity}%</p>
                           <p>Vento : {weatherForecast.current.wind_kph} km/h</p>
                           {/* <h3>Pais: {weatherForecast.location.country}</h3> */}
-                          <p>Cidade: {weatherForecast.location.name}</p>
+                          <p>Cidade: {detalhe.capital}</p>
                           <p>
                             Horário local:{" "}
                             <strong>
@@ -697,7 +682,7 @@ function App() {
                     <ul className="list-group col-sm">
                     <h3
                     className="text-center"
-                    >Fronteira com {detalhe.name}</h3>
+                    >Paises que fazem fronteira</h3>
                       {fronteiras.map((nome, index) => (
                         <li className="list-group-item lead" key={index}>
                           {nome}
@@ -708,7 +693,7 @@ function App() {
                     <ul className="list-group col-sm">
                       <h3
                       className="text-center"
-                      >Linguas mais faladas {detalhe.name} </h3>
+                      >Idioma</h3>
                       {lingua.map((nome, index) => (
                         <li className="list-group-item lead" key={index}>
                           {nome}
