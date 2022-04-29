@@ -9,7 +9,7 @@ function App() {
   const [lingua, setLingua] = useState([]);
   const [detalhe, setDetalhe] = useState(null);
   const [fronteiras, setFronteiras] = useState([]);
-
+  const [moeda,setMoeda]=useState(null)
 
 
   const countries = [
@@ -438,6 +438,8 @@ function App() {
   ];
 
   let paisesF = [];
+  
+
   async function searchCountry() {
     const urlCountry = `https://restcountries.com/v3.1/name/${city}?fullText=true`;
     const foundCountry = await fetch(urlCountry);
@@ -450,6 +452,18 @@ function App() {
       // Lista de linguas
       data.forEach(async (country) => {
         const linguas = await country.languages;
+        const moedasPais= await country.currencies
+        
+        for(let mode in moedasPais){
+          const obj={
+            moedaLocal:moedasPais[mode].name,
+            simbolo:moedasPais[mode].symbol
+          }
+          setMoeda(()=>obj)
+        }
+
+        console.log(moeda)
+
         const listLingua = [];
         for (let lang in linguas) {
           listLingua.push(linguas[lang]);
@@ -627,7 +641,11 @@ function App() {
                           : "Esquerdo"}
                       </p>
                       {/* <p>Moeda do Pais :{`${detalhe.currencies.AOA.name}`}</p> */}
-                      <p> <strong>Moeda :</strong> </p>
+                      <p> <strong>Moeda :</strong>{
+                        moeda?(
+                          `${moeda.moedaLocal}  ${moeda.simbolo}`
+                        ):null
+                      } </p>
                     </div>
                   ) : null}
                 </div>
